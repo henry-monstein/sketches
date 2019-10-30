@@ -2,25 +2,28 @@ package pageobject.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pageobject.forms.LoginForm;
+import pageobject.forms.PasswordForm;
 
-public class LoginPage {
-    private By usernameLocator = By.cssSelector("#passp-field-login");
-    private By submitLocator = By.cssSelector(".passp-sign-in-button");
-    private By passwordLocator = By.cssSelector("");
+public class LoginPage extends Page {
+    private LoginForm loginForm;
+    private PasswordForm passwordForm;
 
-    private WebDriver driver;
+    private By controlElement = By.cssSelector(".passp-form-field__link a");
+
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        if (!isThisPage(controlElement)) {
+            throw new IllegalStateException("This is not the login page");
+        }
     }
 
-    public LoginPage typeUserName(String username) {
-        driver.findElement(usernameLocator).sendKeys(username);
+    public LoginPage loginAs(String username, String password) {
+        loginForm = new LoginForm(driver).typeUserName(username).clickSubmit();
+        passwordForm = new PasswordForm(driver).typePassword(password).clickSubmit();
         return this;
     }
 
-    public LoginPage typePassword(String password) {
-        driver.findElement(passwordLocator).sendKeys(password);
-        return this;
-    }
+
 }
