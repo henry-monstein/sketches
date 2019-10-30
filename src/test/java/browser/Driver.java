@@ -3,12 +3,19 @@ package browser;
 import org.openqa.selenium.WebDriver;
 
 public class Driver {
-    private static WebDriver driverInstance = null;
+    private static Driver instance = null;
 
-    public WebDriver getDriver() {
-        if (driverInstance == null) {
-            driverInstance=BrowserFactory.setBrowser();
+    private WebDriver driverInstance;
+
+    private Driver() {
+        driverInstance = BrowserFactory.setBrowser();
+        instance = this;
+    }
+
+    public static WebDriver getDriver() {
+        if (instance == null) {
+            new Driver();
         }
-        return driverInstance;
+        return instance.driverInstance;
     }
 }
