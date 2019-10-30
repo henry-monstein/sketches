@@ -12,13 +12,14 @@ public abstract class PageWithMenu extends Page {
     private static final String SALES_NAME = "Скидки и акции";
 
     private By mainPageButtonLocator = By.cssSelector("a.logo:nth-child(2)");
+    private By allCategoriesListLocator = By.cssSelector(".n-w-tabs__horizontal-tabs>*");
 
     public PageWithMenu(WebDriver driver) {
         super(driver);
     }
 
     public PageWithMenu findPopularCategoriesList(ArrayList<WebElement> popularCategories) {
-        List<WebElement> categories = driver.findElements(By.cssSelector(".n-w-tabs__horizontal-tabs>*"));
+        List<WebElement> categories = driver.findElements(allCategoriesListLocator);
         for (WebElement element : categories) {
             if (!element.getText().equals("")
                     && !element.getText().equals(ALL_CATEGORIES_NAME)

@@ -14,7 +14,7 @@ public abstract class Page {
     }
 
     protected boolean isThisPage(By locator) {
-        WebElement element = new WebDriverWait(driver, 10)
+        WebElement element = new WebDriverWait(driver, 30)
                 .until(ExpectedConditions.presenceOfElementLocated(locator));
         return element.isEnabled();
     }
