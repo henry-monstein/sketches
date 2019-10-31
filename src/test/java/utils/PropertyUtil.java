@@ -7,14 +7,11 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertyUtil {
-    public static final String CONFIG_PROPERTIES = "src/test/resources/config.properties";
-    public static final String BROWSER_CONFIG_FIELD = "browser.name";
-    public static final String USERNAME_CONFIG_FIELD = "username";
-    public static final String PASSWORD_CONFIG_FIELD = "password";
+    private static final String CONFIG_PROPERTIES = "src/test/resources/config.properties";
 
-    private Properties property;
+    private static Properties property = null;
 
-    public PropertyUtil() {
+    private static void init() {
         FileInputStream inputStream;
         property = new Properties();
         try {
@@ -25,11 +22,10 @@ public class PropertyUtil {
         }
     }
 
-    public String getBrowserType() {
-        return property.getProperty(BROWSER_CONFIG_FIELD);
-    }
-
-    public String[] getUsernameAndPassword() {
-        return new String[]{property.getProperty(USERNAME_CONFIG_FIELD), property.getProperty(PASSWORD_CONFIG_FIELD)};
+    public static String getProperty(String key) {
+        if (property == null) {
+            init();
+        }
+        return property.getProperty(key);
     }
 }

@@ -2,7 +2,7 @@ package tests;
 
 import browser.Driver;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.WebElement;
@@ -21,16 +21,27 @@ import utils.PropertyUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
 
 public class MainPageTest {
+    public static final String USERNAME_CONFIG_FIELD = "username";
+    public static final String PASSWORD_CONFIG_FIELD = "password";
+    public static final String PAGE_LOAD_TIMEOUT_FIELD = "pageLoadTimeout";
+    public static final String SCRIPT_TIMEOUT_FIELD = "scriptTimeout";
+    public static final String IMPLICITLY_WAIT_FIELD = "implicitlyWaitTimeout";
+
+
     private WebDriver driver;
 
     @BeforeTest
     public void setUp() {
         driver = Driver.getDriver();
         driver.manage().window().maximize();
+        driver.manage().timeouts().pageLoadTimeout(Integer.parseInt(PropertyUtil.getProperty(PAGE_LOAD_TIMEOUT_FIELD)), TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(Integer.parseInt(PropertyUtil.getProperty(SCRIPT_TIMEOUT_FIELD)), TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Integer.parseInt(PropertyUtil.getProperty(IMPLICITLY_WAIT_FIELD)), TimeUnit.SECONDS);
     }
 
     @Test(dataProvider = "getUserData")
@@ -38,23 +49,22 @@ public class MainPageTest {
         driver.get("https://market.yandex.ru");
         new GuestMainPage(driver).clickLoginButton();
         ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1));
+        driver.switchTo().window(tabs.get(tabs.size() - 1));
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginAs(username, password);
-        driver.close();
         driver.switchTo().window(tabs.get(0));
-        ArrayList<WebElement> popularCategories = new ArrayList<>();
-        new AuthorizedMainPage(driver).findPopularCategoriesList(popularCategories);
+        AuthorizedMainPage mainPage = new AuthorizedMainPage(driver);
+        ArrayList<String> popularCategories = mainPage.findPopularCategoriesList();
         Collections.shuffle(popularCategories);
-        String category = popularCategories.get(0).getText();
-        popularCategories.get(0).click();
-        assertTrue(driver.getTitle().contains(category));
+        mainPage.clickPopularCategory(popularCategories.get(0));
+        assertTrue(driver.getTitle().toLowerCase().contains(popularCategories.get(0).toLowerCase()));
         new CategoryPage(driver).returnToMainPage();
     }
 
     @DataProvider(name = "getUserData")
     public static Object[][] getUserData() {
-        return new String[][]{new PropertyUtil().getUsernameAndPassword()};
+        return new String[][]{{PropertyUtil.getProperty(USERNAME_CONFIG_FIELD),
+                PropertyUtil.getProperty(PASSWORD_CONFIG_FIELD)}};
     }
 
     @AfterTest
