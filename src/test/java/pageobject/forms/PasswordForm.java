@@ -2,24 +2,22 @@ package pageobject.forms;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pageobject.pages.Page;
+import pageobject.base.PageForm;
 
-public class PasswordForm extends Page {
-    private By passwordLocator = By.id("passp-field-passwd");
+public class PasswordForm extends PageForm {
+    private By passwordInputLocator = By.id("passp-field-passwd");
     private By submitButtonLocator = By.className("passp-sign-in-button");
-
-    private By forgotPasswordButtonLocator = By.cssSelector(".passp-form-field__link a");
 
     public PasswordForm(WebDriver driver) {
         super(driver);
-        if (!isThisPage(forgotPasswordButtonLocator)) {
+        if (!isThisPage(passwordInputLocator)) {
             throw new IllegalStateException("This is not the password form");
         }
     }
 
 
     public PasswordForm typePassword(String password) {
-        driver.findElement(passwordLocator).sendKeys(password);
+        driver.findElement(passwordInputLocator).sendKeys(password);
         return this;
     }
 
