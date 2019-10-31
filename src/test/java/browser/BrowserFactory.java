@@ -22,8 +22,8 @@ class BrowserFactory {
                 return new FirefoxDriver();
             }
             default: {
-                throw new IllegalStateException("Check config.properties: You input "
-                        + browser + " as browser, but you should input 'Chrome' or 'Firefox'");
+                throw new IllegalStateException("Check config.properties: You input '"
+                        + browser + "' as browser, but you should input 'Chrome' or 'Firefox'");
             }
         }
     }

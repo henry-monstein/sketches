@@ -5,8 +5,6 @@ import org.openqa.selenium.WebDriver;
 
 
 abstract class MainPage extends PageWithMenu {
-
-
     public static final String TITLE_PART = "Яндекс.Маркет";
 
     MainPage(WebDriver driver) {

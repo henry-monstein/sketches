@@ -2,10 +2,7 @@ package tests;
 
 import browser.Driver;
 
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-
-import org.openqa.selenium.WebElement;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -17,6 +14,7 @@ import pageobject.pages.AuthorizedMainPage;
 import pageobject.pages.CategoryPage;
 import pageobject.pages.LoginPage;
 import pageobject.pages.GuestMainPage;
+import utils.FileUtil;
 import utils.PropertyUtil;
 
 import java.util.ArrayList;
@@ -53,12 +51,22 @@ public class MainPageTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginAs(username, password);
         driver.switchTo().window(tabs.get(0));
+
+        driver.navigate().refresh();
+
         AuthorizedMainPage mainPage = new AuthorizedMainPage(driver);
         ArrayList<String> popularCategories = mainPage.findPopularCategoriesList();
         Collections.shuffle(popularCategories);
         mainPage.clickPopularCategory(popularCategories.get(0));
-        assertTrue(driver.getTitle().toLowerCase().contains(popularCategories.get(0).toLowerCase()));
-        new CategoryPage(driver).returnToMainPage();
+        CategoryPage randomCategoryPage = new CategoryPage(driver);
+        assertTrue(randomCategoryPage.getCategoryName().toLowerCase().contains(popularCategories.get(0).toLowerCase()));
+        randomCategoryPage.returnToMainPage();
+        mainPage = new AuthorizedMainPage(driver);
+        mainPage.clickAllCategoriesButton();
+        ArrayList<String> allCategories = mainPage.getAllCategoriesList();
+        FileUtil.writeToCSV(new String[][]{allCategories.toArray(new String[allCategories.size()])});
+        assertTrue(allCategories.containsAll(popularCategories));
+        mainPage.logout();
     }
 
     @DataProvider(name = "getUserData")
