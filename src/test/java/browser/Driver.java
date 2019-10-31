@@ -5,10 +5,10 @@ import org.openqa.selenium.WebDriver;
 public class Driver {
     private static Driver instance = null;
 
-    private WebDriver driverInstance;
+    private WebDriver driver;
 
     private Driver() {
-        driverInstance = BrowserFactory.setBrowser();
+        driver = BrowserFactory.setBrowser();
         instance = this;
     }
 
@@ -16,6 +16,6 @@ public class Driver {
         if (instance == null) {
             new Driver();
         }
-        return instance.driverInstance;
+        return instance.driver;
     }
 }

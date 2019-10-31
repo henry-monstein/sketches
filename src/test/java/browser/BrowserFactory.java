@@ -8,8 +8,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import utils.PropertyUtil;
 
 class BrowserFactory {
+    private static final String BROWSER_CONFIG_FIELD = "browser.name";
+
     static WebDriver setBrowser() {
-        String browser = new PropertyUtil().getBrowserType();
+        String browser = PropertyUtil.getProperty(BROWSER_CONFIG_FIELD);
         switch (browser.toUpperCase()) {
             case "CHROME": {
                 WebDriverManager.chromedriver().setup();
