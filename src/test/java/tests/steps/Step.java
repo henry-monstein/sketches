@@ -1,4 +1,4 @@
-package tests.step;
+package tests.steps;
 
 import browser.Browser;
 import pageobject.pages.*;

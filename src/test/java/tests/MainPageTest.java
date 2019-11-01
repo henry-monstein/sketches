@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterTest;
 
-import tests.step.Step;
+import tests.steps.Step;
 import utils.PropertyUtil;
 
 import java.util.ArrayList;
