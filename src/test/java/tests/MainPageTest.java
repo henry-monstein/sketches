@@ -64,7 +64,7 @@ public class MainPageTest {
         mainPage = new AuthorizedMainPage(driver);
         mainPage.clickAllCategoriesButton();
         ArrayList<String> allCategories = mainPage.getAllCategoriesList();
-        FileUtil.writeToCSV(new String[][]{allCategories.toArray(new String[allCategories.size()])});
+        FileUtil.writeToCsv(new String[][]{allCategories.toArray(new String[allCategories.size()])});
         assertTrue(allCategories.containsAll(popularCategories));
         mainPage.logout();
     }
@@ -77,7 +77,7 @@ public class MainPageTest {
 
     @AfterTest
     public void tearDown() {
-        //driver.quit();
+        driver.quit();
         driver = null;
     }
 }
