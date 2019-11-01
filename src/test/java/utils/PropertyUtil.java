@@ -1,7 +1,5 @@
 package utils;
 
-import org.testng.ReporterConfig;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
