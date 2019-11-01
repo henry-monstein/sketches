@@ -5,6 +5,7 @@ import constants.BrowserConstant;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 class BrowserFactory {
@@ -16,6 +17,12 @@ class BrowserFactory {
             case "CHROME": {
                 WebDriverManager.chromedriver().setup();
                 return new ChromeDriver();
+            }
+            case "CHROME-HEADLESS": {
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--headless");
+                return new ChromeDriver(chromeOptions);
             }
             case "FIREFOX": {
                 WebDriverManager.firefoxdriver().setup();
