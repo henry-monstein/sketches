@@ -22,7 +22,7 @@ public class AuthorizedMainPage extends MainPage {
 
     public void logout() {
         openUserMenu();
-        userMenuForm=new UserMenuForm(driver);
+        userMenuForm = new UserMenuForm(driver);
         userMenuForm.clickLogout();
     }
 }
