@@ -2,7 +2,6 @@ package pageobject.pages;
 
 import browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class CategoryPage extends PageWithMenu {
     private By categoryNameField = By.xpath("//div[@data-apiary-widget-name='@MarketNode/CatalogHeader']");

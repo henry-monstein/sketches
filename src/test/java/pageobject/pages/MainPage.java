@@ -17,5 +17,4 @@ public class MainPage extends PageWithMenu {
     public boolean isMainPage() {
         return Browser.getDriver().findElement(bannerLocator).isEnabled();
     }
-
 }

@@ -2,7 +2,6 @@ package pageobject.forms;
 
 import browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import pageobject.base.PageForm;
 
 public class PasswordForm extends PageForm {
@@ -17,13 +16,11 @@ public class PasswordForm extends PageForm {
     }
 
 
-    public PasswordForm typePassword(String password) {
+    public void typePassword(String password) {
         Browser.getDriver().findElement(passwordInputLocator).sendKeys(password);
-        return this;
     }
 
-    public PasswordForm clickSubmit() {
+    public void clickSubmit() {
         Browser.getDriver().findElement(submitButtonLocator).click();
-        return this;
     }
 }

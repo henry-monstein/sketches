@@ -2,7 +2,6 @@ package pageobject.pages;
 
 import browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class GuestMainPage extends MainPage {
     private By loginButtonLocator = By.cssSelector(".header2-nav__user a.user__login");
@@ -14,9 +13,8 @@ public class GuestMainPage extends MainPage {
         }
     }
 
-    public GuestMainPage clickLoginButton() {
+    public void clickLoginButton() {
         Browser.getDriver().findElement(loginButtonLocator).click();
-        return this;
     }
 
     public boolean isLogouted() {

@@ -2,18 +2,12 @@ package pageobject.pages;
 
 import browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pageobject.base.PageForm;
-import utils.Waiter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class PageWithMenu extends PageForm {
-    private static final String ALL_CATEGORIES_NAME = "Все категории";
-    private static final String SALES_NAME = "Скидки и акции";
-
     private By mainPageButtonLocator = By.xpath("//a[contains(text(),'Маркет')]");
 
     private By allCategoriesButtonLocator = By.cssSelector(".n-w-tab_interaction_click-navigation-menu");
@@ -23,7 +17,7 @@ public abstract class PageWithMenu extends PageForm {
             + "*[not(contains(@class,'n-w-tab_interaction_click-navigation-menu')) "
             + "and not(contains(@class,'n-w-tab_discount'))]");
 
-    public PageWithMenu() {
+    PageWithMenu() {
         super();
         if (!isThisPage(categoriesTabs)) {
             throw new IllegalStateException("This is not the login page");
@@ -31,7 +25,6 @@ public abstract class PageWithMenu extends PageForm {
     }
 
     public ArrayList<String> findPopularCategoriesList() {
-//        Waiter.waitPresence(allCategoriesListLocator);
         ArrayList<String> popularCategoriesList = new ArrayList<>();
         for (WebElement element : Browser.getDriver().findElements(allCategoriesTabsLocator)) {
             if (!element.getText().equals("")) {

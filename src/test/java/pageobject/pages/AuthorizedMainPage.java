@@ -2,7 +2,6 @@ package pageobject.pages;
 
 import browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import pageobject.forms.UserMenuForm;
 
 public class AuthorizedMainPage extends MainPage {
