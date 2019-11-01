@@ -13,18 +13,18 @@ public class LoginPage extends PageForm {
     private By usernameInputLocator = By.id("passp-field-login");
 
 
-    public LoginPage(WebDriver driver) {
-        super(driver);
+    public LoginPage() {
+        super();
         if (!isThisPage(usernameInputLocator)) {
             throw new IllegalStateException("This is not the login page");
         }
     }
 
     public void loginAs(String username, String password) {
-        loginForm = new LoginForm(driver);
+        loginForm = new LoginForm();
         loginForm.typeUserName(username);
         loginForm.clickSubmit();
-        passwordForm = new PasswordForm(driver);
+        passwordForm = new PasswordForm();
         passwordForm.typePassword(password);
         passwordForm.clickSubmit();
     }

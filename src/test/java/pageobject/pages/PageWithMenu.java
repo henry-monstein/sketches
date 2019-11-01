@@ -1,5 +1,6 @@
 package pageobject.pages;
 
+import browser.Browser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,17 +23,17 @@ public abstract class PageWithMenu extends PageForm {
             + "*[not(contains(@class,'n-w-tab_interaction_click-navigation-menu')) "
             + "and not(contains(@class,'n-w-tab_discount'))]");
 
-    public PageWithMenu(WebDriver driver) {
-        super(driver);
+    public PageWithMenu() {
+        super();
         if (!isThisPage(categoriesTabs)) {
             throw new IllegalStateException("This is not the login page");
         }
     }
 
     public ArrayList<String> findPopularCategoriesList() {
-//        Waiter.waitPresence(driver, allCategoriesListLocator);
+//        Waiter.waitPresence(allCategoriesListLocator);
         ArrayList<String> popularCategoriesList = new ArrayList<>();
-        for (WebElement element : driver.findElements(allCategoriesTabsLocator)) {
+        for (WebElement element : Browser.getDriver().findElements(allCategoriesTabsLocator)) {
             if (!element.getText().equals("")) {
                 popularCategoriesList.add(element.getText());
             }
@@ -41,8 +42,7 @@ public abstract class PageWithMenu extends PageForm {
     }
 
     public void clickPopularCategory(String categoryName) {
-//        Waiter.waitPresence(driver, allCategoriesListLocator);
-        for (WebElement element : driver.findElements(allCategoriesTabsLocator)) {
+        for (WebElement element : Browser.getDriver().findElements(allCategoriesTabsLocator)) {
             if (element.getAttribute("innerText").equals(categoryName)) {
                 element.click();
                 break;
@@ -52,16 +52,16 @@ public abstract class PageWithMenu extends PageForm {
     }
 
     public void returnToMainPage() {
-        driver.findElement(mainPageButtonLocator).click();
+        Browser.getDriver().findElement(mainPageButtonLocator).click();
     }
 
     public void clickAllCategoriesButton() {
-        driver.findElement(allCategoriesButtonLocator).click();
+        Browser.getDriver().findElement(allCategoriesButtonLocator).click();
     }
 
     public ArrayList<String> getAllCategoriesList() {
         ArrayList<String> allCategories = new ArrayList<>();
-        for (WebElement element : driver.findElements(allCategoriesListLocator)) {
+        for (WebElement element : Browser.getDriver().findElements(allCategoriesListLocator)) {
             allCategories.add(element.getText());
         }
         return allCategories;
