@@ -1,10 +1,11 @@
 package pageobject.pages;
 
+import browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import pageobject.base.PageForm;
 import pageobject.forms.LoginForm;
 import pageobject.forms.PasswordForm;
+import utils.Waiter;
 
 public class LoginPage extends PageForm {
     private LoginForm loginForm;
@@ -29,5 +30,9 @@ public class LoginPage extends PageForm {
         passwordForm.clickSubmit();
     }
 
-
+    @Override
+    protected boolean isThisPage(By locator) {
+        Waiter.fluentWait(locator);
+        return Browser.getDriver().findElement(locator).isEnabled();
+    }
 }
