@@ -1,21 +1,21 @@
 package utils;
 
+import browser.Browser;
+import constants.TimeOutConstant;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Waiter {
-    private static final String CLICKABLE_TIMEOUT = "clickableTimeout";
-    private static final String PRESENCE_OF_ELEMENT_TIMEOUT = "presenceOfElementTimeout";
 
-    public static void waitClickable(WebDriver driver, By locator) {
-        new WebDriverWait(driver, Integer.parseInt(PropertyUtil.getProperty(CLICKABLE_TIMEOUT)))
+
+    public static void waitClickable(By locator) {
+        new WebDriverWait(Browser.getDriver(), TimeOutConstant.getClickableTimeout())
                 .until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    public static void waitPresence(WebDriver driver, By locator) {
-        new WebDriverWait(driver, Integer.parseInt(PropertyUtil.getProperty(PRESENCE_OF_ELEMENT_TIMEOUT)))
+    public static void waitPresence(By locator) {
+        new WebDriverWait(Browser.getDriver(), TimeOutConstant.getPresenceOfElementTimeout())
                 .until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 }
