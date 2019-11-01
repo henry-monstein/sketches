@@ -1,91 +1,51 @@
 package tests;
 
-import browser.Driver;
-
-import org.openqa.selenium.WebDriver;
+import browser.Browser;
 
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.DataProvider;
 
-
-import pageobject.pages.AuthorizedMainPage;
-import pageobject.pages.CategoryPage;
-import pageobject.pages.LoginPage;
-import pageobject.pages.GuestMainPage;
-import utils.FileUtil;
+import tests.step.Step;
 import utils.PropertyUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
 
 public class MainPageTest {
-    public static final String USERNAME_CONFIG_FIELD = "username";
-    public static final String PASSWORD_CONFIG_FIELD = "password";
-    public static final String PAGE_LOAD_TIMEOUT_FIELD = "pageLoadTimeout";
-    public static final String SCRIPT_TIMEOUT_FIELD = "scriptTimeout";
-    public static final String IMPLICITLY_WAIT_FIELD = "implicitlyWaitTimeout";
+    private static final String USERNAME_CONFIG_FIELD = "username";
+    private static final String PASSWORD_CONFIG_FIELD = "password";
+    private static final String START_PAGE_URL_FIELD = "startPage";
 
 
-    private WebDriver driver;
+    private String username = PropertyUtil.getProperty(USERNAME_CONFIG_FIELD);
+    private String password = PropertyUtil.getProperty(PASSWORD_CONFIG_FIELD);
+    private String startPageUrl = PropertyUtil.getProperty(START_PAGE_URL_FIELD);
 
     @BeforeTest
     public void setUp() {
-        driver = Driver.getDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(Integer.parseInt(PropertyUtil.getProperty(PAGE_LOAD_TIMEOUT_FIELD)), TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(Integer.parseInt(PropertyUtil.getProperty(SCRIPT_TIMEOUT_FIELD)), TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(Integer.parseInt(PropertyUtil.getProperty(IMPLICITLY_WAIT_FIELD)), TimeUnit.SECONDS);
+        Browser.maximizeWindow();
+        Browser.setImplicitlyWait();
+        Browser.setScriptTimeout();
+        Browser.setPageLoadTimeout();
     }
 
-    @Test(dataProvider = "getUserData")
-    public void categoriesTest(String username, String password) {
-        driver.get("https://market.yandex.ru");
-        GuestMainPage guestMainPage = new GuestMainPage(driver);
-
-        assertTrue(guestMainPage.isMainPage());
-
-        guestMainPage.clickLoginButton();
-        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(tabs.size() - 1));
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginAs(username, password);
-        driver.switchTo().window(tabs.get(0));
-
-        driver.navigate().refresh();
-
-        AuthorizedMainPage mainPage = new AuthorizedMainPage(driver);
-
-        assertTrue(mainPage.isAuthorized());
-
-        ArrayList<String> popularCategories = mainPage.findPopularCategoriesList();
-        Collections.shuffle(popularCategories);
-        mainPage.clickPopularCategory(popularCategories.get(0));
-        CategoryPage randomCategoryPage = new CategoryPage(driver);
-        assertTrue(randomCategoryPage.getCategoryName().toLowerCase().contains(popularCategories.get(0).toLowerCase()));
-        randomCategoryPage.returnToMainPage();
-        mainPage = new AuthorizedMainPage(driver);
-        mainPage.clickAllCategoriesButton();
-        ArrayList<String> allCategories = mainPage.getAllCategoriesList();
-        FileUtil.writeToCsv(new String[][]{allCategories.toArray(new String[allCategories.size()])});
+    @Test
+    public void categoriesTest() {
+        Step.openPage(startPageUrl);
+        Step.login(username, password);
+        ArrayList<String> popularCategories = Step.getPopularCategories();
+        Step.clickRandomPopularCategory(popularCategories);
+        Step.returnToMainPage();
+        ArrayList<String> allCategories = Step.getAllCategoriesAndWriteIt();
         assertTrue(allCategories.containsAll(popularCategories));
-        mainPage.logout();
-    }
-
-    @DataProvider(name = "getUserData")
-    public static Object[][] getUserData() {
-        return new String[][]{{PropertyUtil.getProperty(USERNAME_CONFIG_FIELD),
-                PropertyUtil.getProperty(PASSWORD_CONFIG_FIELD)}};
+        Step.logout();
     }
 
     @AfterTest
     public void tearDown() {
-        driver.quit();
-        driver = null;
+        Browser.quit();
     }
 }
 
