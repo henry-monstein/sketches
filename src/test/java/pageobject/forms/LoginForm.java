@@ -2,9 +2,6 @@ package pageobject.forms;
 
 import browser.Browser;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobject.base.PageForm;
 import utils.Waiter;
 
@@ -27,7 +24,7 @@ public class LoginForm extends PageForm {
     }
 
     public void clickSubmit() {
-        Waiter.waitClickable(submitButtonLocator);
+        Waiter.fluentWait(submitButtonLocator);
         Browser.getDriver().findElement(submitButtonLocator).click();
     }
 }
