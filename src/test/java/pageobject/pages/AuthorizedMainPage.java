@@ -25,4 +25,8 @@ public class AuthorizedMainPage extends MainPage {
         userMenuForm = new UserMenuForm(driver);
         userMenuForm.clickLogout();
     }
+
+    public boolean isAuthorized() {
+        return driver.findElement(userMenuButtonLocator).isEnabled();
+    }
 }
