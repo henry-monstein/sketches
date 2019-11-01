@@ -45,7 +45,11 @@ public class MainPageTest {
     @Test(dataProvider = "getUserData")
     public void categoriesTest(String username, String password) {
         driver.get("https://market.yandex.ru");
-        new GuestMainPage(driver).clickLoginButton();
+        GuestMainPage guestMainPage = new GuestMainPage(driver);
+
+        assertTrue(guestMainPage.isMainPage());
+
+        guestMainPage.clickLoginButton();
         ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(tabs.size() - 1));
         LoginPage loginPage = new LoginPage(driver);
@@ -55,6 +59,9 @@ public class MainPageTest {
         driver.navigate().refresh();
 
         AuthorizedMainPage mainPage = new AuthorizedMainPage(driver);
+
+        assertTrue(mainPage.isAuthorized());
+
         ArrayList<String> popularCategories = mainPage.findPopularCategoriesList();
         Collections.shuffle(popularCategories);
         mainPage.clickPopularCategory(popularCategories.get(0));
