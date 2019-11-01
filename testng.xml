@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="/home/ITRANSITION.CORP/d.lishko/IdeaProjects/d.lishko/src/test/java/tests/MainPageTest.java">
+        <classes>
+            <class name="tests.MainPageTest">
+                <methods>
+                    <include name="categoriesTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
